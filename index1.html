@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kamus Tematik Anak Ceria</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: #FEF08A;
+            color: #374151;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        .mobile-container {
+            width: 100%;
+            max-width: 450px;
+            background-color: #F0FDF4;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .font-kids {
+            font-family: 'Fredoka One', cursive;
+        }
+
+        .page {
+            display: none;
+            flex-direction: column;
+            flex-grow: 1;
+            width: 100%;
+        }
+        .page.active {
+            display: flex;
+        }
+
+        /* ================= 1. COVER PAGE ================= */
+        #cover-page {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=500');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: white;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 24px;
+        }
+
+        .cover-icon {
+            font-size: 80px;
+            margin-bottom: 16px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .cover-title {
+            font-size: 36px;
+            line-height: 1.2;
+            margin-bottom: 12px;
+            text-shadow: 2px 4px 0px rgba(0,0,0,0.3);
+        }
+
+        .cover-subtitle {
+            font-size: 18px;
+            color: #fef3c7;
+            margin-bottom: 32px;
+            font-weight: 700;
+            text-shadow: 1px 2px 0px rgba(0,0,0,0.3);
+        }
+
+        .btn-start {
+            background-color: #fde047;
+            color: #c2410c;
+            font-family: 'Fredoka One', cursive;
+            font-size: 20px;
+            padding: 14px 36px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+        }
+
+        /* ================= GENERAL HEADER & SEARCH ================= */
+        header {
+            text-align: center;
+            padding: 16px 16px 8px 16px;
+        }
+
+        .main-title {
+            color: #ea580c;
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+        .search-container {
+            margin-top: 12px;
+            position: relative;
+            width: 100%;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 12px 48px 12px 20px;
+            font-size: 16px;
+            border: 4px solid #fb923c;
+            border-radius: 50px;
+            outline: none;
+            font-weight: 700;
+            color: #4b5563;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        .search-bar:focus { border-color: #ea580c; }
+        .search-icon { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); font-size: 18px; }
+
+        /* ================= 2. MENU TEMA PAGE ================= */
+        #menu-tema-page {
+            padding: 0 16px 16px 16px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            color: #92400e;
+            margin: 12px 0;
+            text-align: center;
+        }
+
+        .grid-tema {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-top: 8px;
+        }
+
+        .card-tema {
+            background-color: white;
+            border: 4px solid #fb923c;
+            border-radius: 24px;
+            padding: 20px 12px;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 6px 0px #fb923c;
+            transition: all 0.1s ease;
+        }
+
+        .card-tema:active {
+            transform: translateY(6px);
+            box-shadow: 0 0px 0px transparent;
+        }
+
+        .icon-tema {
+            font-size: 40px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .nama-tema {
+            font-size: 18px;
+            color: #ea580c;
+        }
+
+        /* ================= 3. KATA PAGE (ISI KAMUS) ================= */
+        #kata-page {
+            padding: 0 16px 16px 16px;
+        }
+
+        .nav-back-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            margin-top: 8px;
+        }
+
+        .btn-kembali {
+            background-color: #fb923c;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+            box-shadow: 0 3px 0px #c2410c;
+        }
+        .btn-kembali:active {
+            transform: translateY(3px);
+            box-shadow: 0 0px 0px transparent;
+        }
+
+        .label-tema-aktif {
+            margin-left: auto;
+            font-size: 18px;
+            color: #059669;
+            background-color: #d1fae5;
+            padding: 4px 14px;
+            border-radius: 50px;
+            border: 2px solid #34d399;
+        }
+
+        /* Grid Kamus - 2 Kolom */
+        .kamus-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .card {
+            background-color: white;
+            border: 4px solid #34d399; 
+            border-radius: 20px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+
+        .card-img {
+            width: 100%;
+            height: 100px;
+            object-fit: contain;
+            background-color: #f3f4f6;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .card-indo { color: #059669; font-size: 16px; margin-bottom: 4px; }
+        .divider { width: 100%; border-top: 2px dashed #e5e7eb; margin: 6px 0; }
+        .card-eng { color: #f97316; font-size: 20px; display: flex; align-items: center; gap: 6px; }
+
+        .btn-audio {
+            background-color: #ffedd5;
+            border: none;
+            padding: 4px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .card-read { font-size: 12px; color: #3b82f6; font-style: italic; font-weight: 700; }
+
+        .loader {
+            display: none;
+            text-align: center;
+            padding: 40px;
+            font-size: 18px;
+            color: #ea580c;
+            font-weight: bold;
+        }
+
+        .not-found { display: none; text-align: center; padding: 40px 16px; width: 100%; grid-column: span 2; }
+        .not-found-icon { font-size: 48px; margin-bottom: 8px; }
+        .not-found-text { font-size: 16px; font-weight: 700; color: #4b5563; }
+
+        footer {
+            background-color: #ea580c;
+            color: white;
+            text-align: center;
+            padding: 12px;
+            font-weight: 700;
+            font-size: 13px;
+            margin-top: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="mobile-container">
+        
+        <!-- ================= 1. HALAMAN COVER ================= -->
+        <div id="cover-page" class="page active">
+            <div class="cover-icon">📚✨</div>
+            <h1 class="font-kids cover-title">KAMUS BERGAMBAR</h1>
+            <p class="cover-subtitle">Belajar Bahasa Inggris Jadi Seru dan Mudah!</p>
+            <button onclick="pindahHalaman('menu-tema-page')" class="btn-start">Mulai Belajar! 🚀</button>
+        </div>
+
+        <!-- ================= 2. HALAMAN MENU TEMA ================= -->
+        <div id="menu-tema-page" class="page">
+            <header>
+                <h2 onclick="pindahHalaman('cover-page')" class="font-kids main-title">✨ Kamus Ceria ✨</h2>
+                <div class="search-container">
+                    <!-- KHUSUS CARI TEMA -->
+                    <input type="text" id="search-bar-menu" oninput="cariTemaSaja(this.value)" placeholder="Cari nama tema di sini..." class="search-bar">
+                    <span class="search-icon">🔍</span>
+                </div>
+            </header>
+
+            <h3 class="font-kids section-title">🎯 Pilih Tema Kotakmu:</h3>
+            <div id="grid-tema-container" class="grid-tema">
+                <!-- Render otomatis via JS -->
+            </div>
+            
+            <div id="not-found-tema" class="not-found">
+                <p class="not-found-icon">🕵️‍♂️</p>
+                <p class="not-found-text">Tema itu belum terdaftar...</p>
+            </div>
+        </div>
+
+        <!-- ================= 3. HALAMAN ITEM KATA (KAMUS) ================= -->
+        <div id="kata-page" class="page">
+            <header>
+                <h2 onclick="pindahHalaman('cover-page')" class="font-kids main-title">✨ Kamus Ceria ✨</h2>
+                <div class="search-container">
+                    <!-- KHUSUS CARI KOSAKATA DALAM TEMA INI -->
+                    <input type="text" id="search-bar-kata" oninput="cariKataDalamTemaSaja(this.value)" placeholder="Cari kata di tema ini..." class="search-bar">
+                    <span class="search-icon">🔍</span>
+                </div>
+            </header>
+
+            <div class="nav-back-container">
+                <button onclick="kembaliKeMenuTema()" class="btn-kembali">◀ Menu Tema</button>
+                <span id="label-tema-aktif" class="font-kids label-tema-aktif">Tema</span>
+            </div>
+
+            <div id="loader-status" class="loader">Memuat Kata... ⏳</div>
+
+            <main class="kamus-grid" id="kamus-grid"></main>
+
+            <div id="not-found-kata" class="not-found">
+                <p class="not-found-icon">😢</p>
+                <p class="not-found-text">Kata itu tidak ada di tema ini...</p>
+            </div>
+        </div>
+
+        <footer>
+            <p>Dibuat dengan ❤️ untuk Anak Pintar © 2026</p>
+        </footer>
+    </div>
+
+    <!-- ================= JAVASCRIPT LOGIC ================= -->
+    <script>
+        let daftarTema = [];
+        let kosakataAktifTema = []; 
+
+        function pindahHalaman(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            
+            if (pageId === 'menu-tema-page' && daftarTema.length === 0) {
+                muatKonfigurasiTema();
+            }
+        }
+
+        // Load daftar_tema.csv
+        async function muatKonfigurasiTema() {
+            try {
+                const response = await fetch('daftar_tema.csv');
+                const dataText = await response.text();
+                const baris = dataText.split('\n');
+                
+                daftarTema = [];
+                for (let i = 1; i < baris.length; i++) {
+                    if (baris[i].trim() === "") continue;
+                    const kolom = baris[i].split(',');
+                    daftarTema.push({
+                        nama: kolom[0].trim(),
+                        file: kolom[1].trim(),
+                        icon: mendapatkanEmojiOtomatis(kolom[0].trim()) 
+                    });
+                }
+
+                daftarTema.sort((a, b) => a.nama.localeCompare(b.nama));
+                tampilkanGridTema(daftarTema);
+            } catch (error) {
+                console.error("Gagal memuat daftar_tema.csv", error);
+            }
+        }
+
+        function mendapatkanEmojiOtomatis(namaTema) {
+            const lower = namaTema.toLowerCase();
+            if(lower.includes('hewan') || lower.includes('animal')) return '🦁';
+            if(lower.includes('buah') || lower.includes('fruit')) return '🍎';
+            if(lower.includes('kendaraan') || lower.includes('transport')) return '🚀';
+            if(lower.includes('warna') || lower.includes('color')) return '🎨';
+            if(lower.includes('baju') || lower.includes('pakaian')) return '👕';
+            return '⭐';
+        }
+
+        // Render Grid Tema
+        function tampilkanGridTema(dataTema) {
+            const container = document.getElementById('grid-tema-container');
+            const notFoundTema = document.getElementById('not-found-tema');
+            container.innerHTML = '';
+            
+            if (dataTema.length === 0) {
+                notFoundTema.style.display = 'block';
+                return;
+            }
+            notFoundTema.style.display = 'none';
+
+            dataTema.forEach(tema => {
+                container.innerHTML += `
+                    <div class="card-tema" onclick="pilihDanMuatTema('${tema.nama}', '${tema.file}')">
+                        <span class="icon-tema">${tema.icon}</span>
+                        <span class="font-kids nama-tema">${tema.nama}</span>
+                    </div>
+                `;
+            });
+        }
+
+        // PENCARIAN 1: Hanya filter Nama Tema di Halaman Menu
+        function cariTemaSaja(keyword) {
+            const hasilFilter = daftarTema.filter(tema => 
+                tema.nama.toLowerCase().includes(keyword.toLowerCase())
+            );
+            tampilkanGridTema(hasilFilter);
+        }
+
+        // Ambil data CSV dari tema yang diklik
+        async function pilihDanMuatTema(namaTema, fileCSV) {
+            document.getElementById('label-tema-aktif').innerText = namaTema;
+            document.getElementById('search-bar-kata').value = ''; 
+            document.getElementById('search-bar-kata').placeholder = `Cari kata di tema ${namaTema}...`;
+            
+            const grid = document.getElementById('kamus-grid');
+            const loader = document.getElementById('loader-status');
+            const notFoundKata = document.getElementById('not-found-kata');
+            
+            grid.innerHTML = '';
+            notFoundKata.style.display = 'none';
+            loader.style.display = 'block';
+            
+            pindahHalaman('kata-page');
+
+            try {
+                const response = await fetch(fileCSV);
+                const dataText = await response.text();
+                const baris = dataText.split('\n');
+                
+                kosakataAktifTema = [];
+                for (let i = 1; i < baris.length; i++) {
+                    if (baris[i].trim() === "") continue;
+                    const kolom = baris[i].split(',');
+                    kosakataAktifTema.push({
+                        indonesia: kolom[0].trim(),
+                        inggris: kolom[1].trim(),
+                        caraBaca: kolom[2].trim(),
+                        gambar: kolom[3].trim()
+                    });
+                }
+                
+                loader.style.display = 'none';
+                tampilkanKamus(kosakataAktifTema);
+            } catch (error) {
+                console.error("Gagal mendownload tema: " + fileCSV, error);
+                loader.style.display = 'none';
+                notFoundKata.style.display = 'block';
+            }
+        }
+
+        // Tampilkan Kosakata
+        function tampilkanKamus(data) {
+            const grid = document.getElementById('kamus-grid');
+            const notFoundKata = document.getElementById('not-found-kata');
+            grid.innerHTML = '';
+
+            if (data.length === 0) {
+                grid.style.display = 'none';
+                notFoundKata.style.display = 'block';
+                return;
+            } 
+            grid.style.display = 'grid';
+            notFoundKata.style.display = 'none';
+
+            data.forEach(item => {
+                grid.innerHTML += `
+                    <div class="card">
+                        <img src="${item.gambar}" alt="${item.indonesia}" class="card-img" onerror="this.src='https://placehold.co/150?text=Gambar'">
+                        <h3 class="font-kids card-indo">${item.indonesia}</h3>
+                        <div class="divider"></div>
+                        <h2 class="font-kids card-eng">
+                            ${item.inggris}
+                            <button onclick="suaraMisterius('${item.inggris}')" class="btn-audio">🔊</button>
+                        </h2>
+                        <p class="card-read">[${item.caraBaca}]</p>
+                    </div>
+                `;
+            });
+        }
+
+        // PENCARIAN 2: Hanya filter kata di dalam tema yang aktif dibuka saja
+        function cariKataDalamTemaSaja(keyword) {
+            const hasilFilter = kosakataAktifTema.filter(item => 
+                item.indonesia.toLowerCase().includes(keyword.toLowerCase()) || 
+                item.inggris.toLowerCase().includes(keyword.toLowerCase())
+            );
+            tampilkanKamus(hasilFilter);
+        }
+
+        function kembaliKeMenuTema() {
+            document.getElementById('search-bar-menu').value = '';
+            tampilkanGridTema(daftarTema); // Kembalikan list tema ke kondisi full awal
+            pindahHalaman('menu-tema-page');
+        }
+
+        // Suara Pengucapan
+        function suaraMisterius(teks) {
+            const ucapan = new SpeechSynthesisUtterance(teks);
+            ucapan.lang = 'en-US';
+            ucapan.rate = 0.85;
+            window.speechSynthesis.speak(ucapan);
+        }
+    </script>
+</body>
+</html>
